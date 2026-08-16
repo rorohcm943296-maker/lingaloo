@@ -40,9 +40,9 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: "Vocab Vault",
-        short_name: "Vault",
-        description: "Collect and review vocabulary across languages. Auto-fetched dictionary definitions, flashcard review, offline support.",
+        name: "Lingaloo",
+        short_name: "Lingaloo",
+        description: "Collect words, learn smarter across languages — free dictionary lookup, flashcard review.",
         theme_color: "#6c5ce7",
         background_color: "#0f0f1a",
         display: "standalone",

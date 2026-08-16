@@ -1,4 +1,4 @@
-# Vocab Vault — Word Collector 📚
+# Lingaloo — language word collector
 
 A mobile-first **Progressive Web App** for collecting and reviewing vocabulary in multiple languages. Every word you add automatically pulls its dictionary definition into the app — no API key required.
 

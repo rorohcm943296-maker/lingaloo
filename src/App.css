@@ -51,7 +51,7 @@ body {
 
 .app-header {
   text-align: center;
-  padding: 20px 16px 10px;
+  padding: calc(20px + env(safe-area-inset-top, 0px)) 16px 10px;
   flex-shrink: 0;
 }
 

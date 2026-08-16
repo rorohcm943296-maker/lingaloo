@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getDueWords, updateWord } from "../lib/db";
+import { getDueWords, getAllWords, updateWord } from "../lib/db";
 import { languageFlag } from "../lib/languages";
 import { canSpeak, speak } from "../lib/speech";
 import PropTypes from "prop-types";
@@ -18,6 +18,17 @@ export default function Review() {
     setLoading(true);
     const due = await getDueWords(Date.now());
     setCards(due);
+    setIndex(0);
+    setRevealed(false);
+    setLoading(false);
+  }
+
+  // Load ALL words (not just due) so "Review again" works even after
+  // every word has been scheduled for the future.
+  async function loadAllCards() {
+    setLoading(true);
+    const all = await getAllWords();
+    setCards(all);
     setIndex(0);
     setRevealed(false);
     setLoading(false);
@@ -49,7 +60,7 @@ export default function Review() {
         <h2 className="section-title">🔄 Review</h2>
         <div className="empty-state">
           <p>🎉 Nothing to review right now!</p>
-          <button className="btn-add" onClick={loadCards}>Check again</button>
+          <button className="btn-add" onClick={loadAllCards}>Review again</button>
         </div>
       </div>
     );
