@@ -9,6 +9,15 @@ const SPEECH_LANG = {
   fi: "fi-FI", cs: "cs-CZ", ro: "ro-RO", he: "he-IL", th: "th-TH", id: "id-ID",
 };
 
+// iOS Safari loads voices asynchronously — calling speak() before voices
+// are available does nothing silently. Pre-trigger voice loading early.
+if (typeof window !== "undefined" && "speechSynthesis" in window) {
+  speechSynthesis.getVoices();
+  speechSynthesis.onvoiceschanged = () => {
+    speechSynthesis.getVoices();
+  };
+}
+
 export function canSpeak() {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
@@ -16,13 +25,22 @@ export function canSpeak() {
 export function speak(word, langCode) {
   if (!canSpeak()) return false;
   try {
+    const lang = SPEECH_LANG[langCode] || langCode;
+    const voices = speechSynthesis.getVoices();
+    // prefer a voice matching the language, fall back to the device default
+    const voice = voices.find((v) => v.lang.startsWith(lang)) || null;
+
     const u = new SpeechSynthesisUtterance(word);
-    u.lang = SPEECH_LANG[langCode] || langCode;
+    u.lang = lang;
+    u.voice = voice;
     u.rate = 0.85; // slightly slower for learners
+
     speechSynthesis.cancel();
-    speechSynthesis.speak(u);
+    // iOS Safari needs a brief delay after cancel() or speech is swallowed
+    setTimeout(() => speechSynthesis.speak(u), 60);
     return true;
-  } catch {
+  } catch (e) {
+    console.warn("speech failed:", e);
     return false;
   }
 }
