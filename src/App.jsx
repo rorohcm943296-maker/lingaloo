@@ -21,7 +21,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Lingaloo <span className="version-badge">v31</span></h1>
+        <h1>Lingaloo <span className="version-badge">v32</span></h1>
         <p>Collect words, learn smarter</p>
       </header>
 
